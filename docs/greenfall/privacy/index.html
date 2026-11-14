@@ -1,1 +1,188 @@
-.
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개인정보 처리방침 — 구름 한 줌 / Greenfall</title>
+<meta name="description" content="구름 한 줌(Greenfall)의 개인정보 처리방침 / Privacy Policy">
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --text: #1b1f24;
+    --muted: #5b6470;
+    --line: #e2e6eb;
+    --accent: #2f6f4f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171a;
+      --card: #1c2024;
+      --text: #e8ecf0;
+      --muted: #a2adb8;
+      --line: #2b3138;
+      --accent: #7fc9a4;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Noto Sans KR", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7;
+    font-size: 16px;
+    word-break: keep-all;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px 28px 40px;
+  }
+  h1 {
+    font-size: 1.5rem;
+    line-height: 1.35;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin: 0 0 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  h2 {
+    font-size: 1.0625rem;
+    margin: 32px 0 10px;
+    padding-left: 10px;
+    border-left: 3px solid var(--accent);
+    letter-spacing: -0.005em;
+  }
+  p { margin: 0 0 12px; }
+  ul { margin: 0 0 12px; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px;
+    font-size: 0.9375rem;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+  }
+  th {
+    background: var(--bg);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.875em;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 40px 0 28px;
+  }
+  .en h2 { border-left-color: var(--muted); }
+  .en { color: var(--muted); }
+  .en strong, .en h2 { color: var(--text); }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  @media (max-width: 520px) {
+    body { padding: 20px 12px 48px; font-size: 15px; }
+    main { padding: 24px 18px 32px; border-radius: 10px; }
+    th { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>개인정보 처리방침</h1>
+  <p class="meta">
+    구름 한 줌 / Greenfall · 패키지 <code>com.taewookim.greenfall</code><br>
+    개발자 taewookim · 시행일 2026-11-13
+  </p>
+
+  <h2>한 줄 요약</h2>
+  <p>게임 진행 상황은 <strong>기기 안에만</strong> 저장됩니다. 서버로 보내지 않습니다. 앱 시작 시 한 번 표시되는 광고 때문에 Google AdMob이 <strong>광고 ID 같은 기기 정보</strong>를 처리합니다.</p>
+
+  <h2>수집하지 않는 것</h2>
+  <ul>
+    <li>계정·이름·이메일·전화번호·주소록 등 개인 식별 정보</li>
+    <li>사진·위치·연락처·마이크</li>
+    <li>게임 진행 데이터의 외부 전송</li>
+  </ul>
+
+  <h2>기기 안에만 저장되는 것</h2>
+  <p>앱의 저장 폴더에 JSON 파일(<code>planet_&lt;행성&gt;.json</code>, <code>travel.json</code>, <code>catalog.json</code>)과 소리 설정이 저장됩니다. 앱을 지우면 함께 지워지며, 개발자도 열람할 수 없습니다.</p>
+
+  <h2>광고 (Google AdMob)</h2>
+  <p>앱을 켤 때 <strong>앱 열림(App Open) 광고</strong>가 한 번 표시될 수 있습니다. 광고 표시를 위해 Google Mobile Ads SDK(Google LLC)가 다음을 처리합니다.</p>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>처리 항목</th><th>용도</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>광고 ID(Android Advertising ID / iOS IDFA) 또는 기기 식별자</td><td>광고 표시·빈도 제한·측정</td></tr>
+        <tr><td>IP 주소(대략적인 지역)</td><td>광고 제공</td></tr>
+        <tr><td>기기 모델·운영체제·앱 버전</td><td>광고 호환성</td></tr>
+        <tr><td>광고 상호작용(노출·클릭)</td><td>성과 측정</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul>
+    <li>맞춤 광고 여부는 기기 설정을 따릅니다. (Android: 설정 → Google → 광고 → 광고 ID 재설정/삭제, iOS: 설정 → 개인정보 보호 → 추적)</li>
+    <li>iOS에서 추적 허용을 묻지 않는 경우(ATT 미사용) 추적 목적의 데이터는 쓰지 않습니다.</li>
+    <li>Google의 처리 방식: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">policies.google.com/technologies/ads</a></li>
+    <li>AdMob 파트너 목록: <a href="https://support.google.com/admob/answer/9012903" target="_blank" rel="noopener">support.google.com/admob/answer/9012903</a></li>
+  </ul>
+
+  <h2>아동</h2>
+  <p>만 13세 미만 아동을 대상으로 하지 않습니다. 개인 식별 정보를 수집하지 않습니다.</p>
+
+  <h2>문의</h2>
+  <p>이메일: <a href="mailto:whatseey@gmail.com">whatseey@gmail.com</a></p>
+
+  <h2>변경</h2>
+  <p>내용이 바뀌면 이 문서의 시행일을 갱신합니다.</p>
+
+  <hr>
+
+  <div class="en">
+    <h2>Privacy Policy (English)</h2>
+    <p><strong>App:</strong> Greenfall (구름 한 줌) · <code>com.taewookim.greenfall</code> · Developer: taewookim · Effective 2026-11-13</p>
+
+    <p>Progress is saved only on your device and never sent to a server. A Google AdMob App Open ad may be shown once at launch; the Google Mobile Ads SDK handles an advertising identifier and coarse device data for ad serving and measurement. We collect no account, contact, photo or location data. Not directed to children under 13.</p>
+
+    <p><strong>What we do not collect:</strong> account, name, email, phone number, address book, photos, location, contacts, microphone — and no game progress leaves the device.</p>
+
+    <p><strong>Stored on your device only:</strong> JSON save files (<code>planet_&lt;id&gt;.json</code>, <code>travel.json</code>, <code>catalog.json</code>) and sound settings. Deleting the app deletes them. The developer cannot read them.</p>
+
+    <p><strong>Advertising:</strong> The Google Mobile Ads SDK (Google LLC) processes an advertising ID or device identifier, coarse IP-based location, device model, OS and app version, and ad interactions (impressions, clicks) to serve ads, cap frequency and measure performance. Personalized advertising follows your device settings. See <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a> and the <a href="https://support.google.com/admob/answer/9012903" target="_blank" rel="noopener">AdMob partner list</a>.</p>
+
+    <p><strong>Children:</strong> Not directed to children under 13. No personally identifying information is collected.</p>
+
+    <p><strong>Contact:</strong> <a href="mailto:whatseey@gmail.com">whatseey@gmail.com</a></p>
+
+    <p><strong>Changes:</strong> If this policy changes, the effective date above is updated.</p>
+  </div>
+
+</main>
+</body>
+</html>
