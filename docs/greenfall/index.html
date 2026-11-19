@@ -216,6 +216,15 @@
     padding: 10px 12px 12px;
     text-align: center;
   }
+  /* 넓은 화면에서는 가로 스크롤 대신 3~4열 격자로 — 잘린 카드가 보이지 않게 */
+  @media (min-width: 720px) {
+    .shots {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: visible;
+      padding-bottom: 4px;
+    }
+  }
 
   /* ---------- 기능 카드 ---------- */
   .grid {
@@ -230,10 +239,16 @@
     padding: 22px 20px;
   }
   .card .ico {
-    font-size: 1.5rem;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
     line-height: 1;
-    display: block;
-    margin-bottom: 12px;
+    border-radius: 12px;
+    background: rgba(121, 201, 158, 0.1);
+    border: 1px solid rgba(121, 201, 158, 0.18);
+    margin-bottom: 14px;
   }
   .card h3 {
     font-size: 1rem;
