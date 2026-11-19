@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구름 한 줌 / Greenfall — 손바닥만 한 행성의 날씨가 되어</title>
+<meta name="description" content="구름 한 줌(Greenfall)은 손바닥만 한 행성의 날씨가 되어 메마른 행성을 초록으로 키우는 느긋한 샌드박스 게임입니다. 행성 5곳, 친구 45종, 실패 없음.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="구름 한 줌 / Greenfall">
+<meta property="og:description" content="손바닥만 한 행성의 날씨가 되어, 메마른 행성을 초록으로 키우는 느긋한 샌드박스 게임.">
+<meta property="og:image" content="img/icon.png">
+<link rel="icon" href="img/icon.png">
+<style>
+  :root {
+    --bg: #080b10;
+    --card: #10161d;
+    --card2: #141c25;
+    --text: #e9eef3;
+    --muted: #96a3b0;
+    --line: #1f2933;
+    --green: #79c99e;
+    --green-soft: #2f6f4f;
+    --gold: #f0c96a;
+    --ice: #9fd8f0;
+    --sand: #e6c98f;
+    --ember: #e58a6a;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 700px at 50% -10%, rgba(121, 201, 158, 0.13), transparent 60%),
+      radial-gradient(900px 600px at 85% 35%, rgba(90, 140, 220, 0.08), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Noto Sans KR", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7;
+    font-size: 16px;
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* 별 — 작은 점 두 겹을 반복 배경으로 깐다 (이미지 파일 없이) */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1.2px 1.2px at 12% 18%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 32% 8%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1.4px 1.4px at 67% 14%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1px 1px at 82% 30%, rgba(255,255,255,0.45), transparent 60%),
+      radial-gradient(1.2px 1.2px at 22% 56%, rgba(255,255,255,0.35), transparent 60%),
+      radial-gradient(1px 1px at 74% 68%, rgba(255,255,255,0.4), transparent 60%),
+      radial-gradient(1.3px 1.3px at 48% 84%, rgba(255,255,255,0.3), transparent 60%),
+      radial-gradient(1px 1px at 90% 88%, rgba(255,255,255,0.35), transparent 60%);
+    background-size: 100% 100%;
+    z-index: 0;
+  }
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  a { color: var(--green); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ---------- 히어로 ---------- */
+  header.hero {
+    text-align: center;
+    padding: 72px 0 40px;
+  }
+  .app-icon {
+    width: 112px;
+    height: 112px;
+    border-radius: 26px;
+    display: block;
+    margin: 0 auto 26px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
+    animation: float 7s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.2;
+    margin: 0 0 2px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 small {
+    display: block;
+    font-size: 0.3125em;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .tagline {
+    font-size: clamp(1rem, 2.6vw, 1.1875rem);
+    color: var(--muted);
+    max-width: 34em;
+    margin: 14px auto 28px;
+  }
+  .tagline strong { color: var(--text); font-weight: 600; }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 0 0 30px;
+    padding: 0;
+    list-style: none;
+  }
+  .chips li {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+  .chips b { color: var(--text); font-weight: 600; }
+
+  /* ---------- 버튼 ---------- */
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); }
+  .btn-play {
+    background: var(--green);
+    color: #06120c;
+    box-shadow: 0 10px 26px rgba(121, 201, 158, 0.22);
+  }
+  .btn-play[aria-disabled="true"] {
+    background: transparent;
+    color: var(--muted);
+    border: 1px dashed var(--line);
+    box-shadow: none;
+    cursor: default;
+  }
+  .btn-ghost {
+    border: 1px solid var(--line);
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+  }
+  .soon {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* ---------- 섹션 ---------- */
+  section { padding: 44px 0; }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin: 0 0 6px;
+  }
+  h2 {
+    font-size: clamp(1.375rem, 3.4vw, 1.75rem);
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin: 0 0 10px;
+  }
+  .lead { color: var(--muted); margin: 0 0 26px; max-width: 44em; }
+
+  /* ---------- 스크린샷 ---------- */
+  .shots {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(190px, 1fr);
+    gap: 14px;
+    overflow-x: auto;
+    padding: 4px 4px 18px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .shot {
+    scroll-snap-align: center;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--card);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.4);
+  }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    padding: 10px 12px 12px;
+    text-align: center;
+  }
+
+  /* ---------- 기능 카드 ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: linear-gradient(180deg, var(--card2), var(--card));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+  }
+  .card .ico {
+    font-size: 1.5rem;
+    line-height: 1;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 1rem;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .card p { margin: 0; color: var(--muted); font-size: 0.9375rem; }
+
+  /* ---------- 행성 ---------- */
+  .planets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .planet {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .planet::after {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--halo);
+    filter: blur(38px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .planet h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 1.0625rem;
+    margin: 0 0 4px;
+  }
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--halo);
+    box-shadow: 0 0 12px var(--halo);
+    flex: none;
+  }
+  .planet .tools {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin: 0 0 10px;
+  }
+  .planet .goal {
+    font-size: 0.875rem;
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 8px 11px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .planet .goal span { color: var(--muted); }
+
+  /* ---------- 인용 ---------- */
+  .quote {
+    text-align: center;
+    font-size: clamp(1.0625rem, 2.6vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--text);
+    max-width: 30em;
+    margin: 10px auto 0;
+  }
+  .quote span { color: var(--green); }
+
+  /* ---------- 푸터 ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 40px;
+    padding: 30px 0 54px;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .foot-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+
+  @media (max-width: 560px) {
+    header.hero { padding: 48px 0 28px; }
+    .app-icon { width: 88px; height: 88px; border-radius: 21px; }
+    section { padding: 34px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .app-icon { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <img class="app-icon" src="img/icon.png" width="112" height="112" alt="구름 한 줌 앱 아이콘">
+    <h1><small>Greenfall</small>구름 한 줌</h1>
+    <p class="tagline">
+      손바닥만 한 행성의 <strong>날씨</strong>가 되어,
+      구름과 바람과 햇볕으로 메마른 땅에 <strong>생명을 키우세요</strong>.
+    </p>
+    <ul class="chips">
+      <li><b>행성 5곳</b> · 도구 3개씩</li>
+      <li><b>친구 45종</b> 도감</li>
+      <li><b>실패 없음</b></li>
+      <li>하루 <b>5~10분</b></li>
+    </ul>
+    <div class="actions">
+      <!-- 스토어 링크가 나오면 아래 href를 실제 주소로 바꾸세요 -->
+      <a class="btn btn-play" href="#" aria-disabled="true" onclick="return false;">Google Play</a>
+      <a class="btn btn-ghost" href="#planets">행성 미리 보기</a>
+    </div>
+    <span class="soon">Google Play 출시 준비 중입니다.</span>
+  </header>
+
+  <section id="shots">
+    <p class="eyebrow">Screenshots</p>
+    <h2>행성을 돌리면, 어디서든 날씨가 바뀝니다</h2>
+    <p class="lead">행성을 드래그해 돌리고, 아래에서 도구를 골라 땅에 끌어다 놓으세요. 비가 내리고, 바람이 불고, 햇볕이 땅을 데웁니다.</p>
+    <div class="shots">
+      <figure class="shot">
+        <img src="img/01_planet.jpg" alt="초록 행성에서 푸른 땅 100%를 이룬 화면" loading="lazy" width="540" height="1080">
+        <figcaption>초록 행성 · 푸른 땅 100%</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="img/03_ice_aurora.jpg" alt="얼음 행성에 오로라가 휘어진 화면" loading="lazy" width="540" height="1080">
+        <figcaption>얼음 행성 · 오로라</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="img/04_islands_coral.jpg" alt="군도 행성에 산호초가 자란 화면" loading="lazy" width="540" height="1080">
+        <figcaption>군도 행성 · 산호초</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="img/05_desert_well.jpg" alt="사막 행성에 샘이 솟은 화면" loading="lazy" width="540" height="1080">
+        <figcaption>사막 행성 · 샘</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="img/06_volcano.jpg" alt="화산 행성에 잿빛 숲이 자란 화면" loading="lazy" width="540" height="1080">
+        <figcaption>화산 행성 · 잿빛 숲</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="img/02_catalog.jpg" alt="친구 45종 도감 화면" loading="lazy" width="540" height="1080">
+        <figcaption>도감 · 친구 45종</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="img/08_night.jpg" alt="밤이 되어 마을에 불이 켜진 화면" loading="lazy" width="540" height="1080">
+        <figcaption>밤 · 마을의 등불</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="play">
+    <p class="eyebrow">How it plays</p>
+    <h2>서두를 것도, 지는 것도 없습니다</h2>
+    <p class="lead">날씨는 한 번의 명령이 아니라 천천히 흐르는 변화입니다. 땅의 물기와 기운은 시간에 따라 스스로 움직이고, 당신은 그 흐름에 손을 보탭니다.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="ico">☁️</span>
+        <h3>구름을 만들고 옮기세요</h3>
+        <p>바다 위에서 구름을 띄워 육지로 끌어오면 비가 내립니다. 바다 위에서는 비를 아껴요.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🌱</span>
+        <h3>햇볕은 봄을 데려옵니다</h3>
+        <p>오래 쬔 땅은 봄기운이 쌓여, 눈이 녹고 풀이 돋습니다. 바다를 데우면 구름이 피어납니다.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🍃</span>
+        <h3>바람은 비를 옆으로</h3>
+        <p>바람에 실린 비는 넓고 얇게 내려 초원 띠를 만듭니다. 풍차도 바람에 반응해요.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🐾</span>
+        <h3>친구들은 각자 반응합니다</h3>
+        <p>비를 좋아하는 친구, 싫어하는 친구. 햇볕에 기뻐하고 바람에 데굴데굴. 금빛 친구도 숨어 있어요.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🌙</span>
+        <h3>계절과 밤이 흐릅니다</h3>
+        <p>계절이 바뀌면 잎 색이 물들고, 밤이 오면 마을에 불이 켜집니다. 유성우도 내려요.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🎧</span>
+        <h3>소리 없이도 즐겁게</h3>
+        <p>빗소리와 새소리는 모두 그때그때 합성됩니다. 소리를 꺼도 게임은 그대로예요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="planets">
+    <p class="eyebrow">Five planets</p>
+    <h2>행성마다 도구도, 목표도 다릅니다</h2>
+    <p class="lead">첫 행성의 목표를 이루면 다음 행성이 열립니다. 실패는 없으니 어떤 순서로 손대도 괜찮아요.</p>
+    <div class="planets">
+      <article class="planet" style="--halo:#79c99e">
+        <h3><span class="dot"></span>초록 행성</h3>
+        <p class="tools">구름 · 비 · 바람 · 햇볕</p>
+        <p class="goal"><span>목표</span> · 푸른 땅 100%</p>
+      </article>
+      <article class="planet" style="--halo:#9fd8f0">
+        <h3><span class="dot"></span>얼음 행성</h3>
+        <p class="tools">온천 · 눈구름 · 오로라</p>
+        <p class="goal"><span>목표</span> · 처음 눈밭의 80%에 봄 데려오기</p>
+      </article>
+      <article class="planet" style="--halo:#6fc7d8">
+        <h3><span class="dot"></span>군도 행성</h3>
+        <p class="tools">밀물 · 산호초 · 계절풍</p>
+        <p class="goal"><span>목표</span> · 섬을 이어 300칸의 하나의 땅</p>
+      </article>
+      <article class="planet" style="--halo:#e6c98f">
+        <h3><span class="dot"></span>사막 행성</h3>
+        <p class="tools">샘 · 새벽 안개 · 씨앗</p>
+        <p class="goal"><span>목표</span> · 샘 6곳을 잇는 오아시스 길 + 초원 700칸</p>
+      </article>
+      <article class="planet" style="--halo:#e58a6a">
+        <h3><span class="dot"></span>화산 행성</h3>
+        <p class="tools">분화 · 증기 · 지진</p>
+        <p class="goal"><span>목표</span> · 잿빛 위에 숲 400칸</p>
+      </article>
+      <article class="planet" style="--halo:#f0c96a">
+        <h3><span class="dot"></span>행성지기</h3>
+        <p class="tools">목표를 이룬 행성에 찾아옵니다</p>
+        <p class="goal"><span>힌트</span> · 탭하면 오늘 할 일을 알려 줘요</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <p class="quote">혼자 조용히, 천천히.<br><span>당신의 날씨로 행성을 초록으로 물들이세요.</span></p>
+  </section>
+
+  <footer>
+    <div class="foot-row">
+      <span>구름 한 줌 / Greenfall · <code>com.suke.greenfall</code></span>
+      <nav class="foot-links" aria-label="정책 링크">
+        <a href="privacy/index.html">개인정보 처리방침</a>
+        <a href="terms/index.html">이용약관</a>
+        <a href="mailto:whatseey@gmail.com">문의</a>
+      </nav>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
