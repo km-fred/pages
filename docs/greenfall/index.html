@@ -243,12 +243,20 @@
     height: 42px;
     display: grid;
     place-items: center;
-    font-size: 1.25rem;
-    line-height: 1;
+    color: var(--green);
     border-radius: 12px;
     background: rgba(121, 201, 158, 0.1);
     border: 1px solid rgba(121, 201, 158, 0.18);
     margin-bottom: 14px;
+  }
+  .card .ico svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .card h3 {
     font-size: 1rem;
@@ -423,32 +431,32 @@
     <p class="lead">날씨는 한 번의 명령이 아니라 천천히 흐르는 변화입니다. 땅의 물기와 기운은 시간에 따라 스스로 움직이고, 당신은 그 흐름에 손을 보탭니다.</p>
     <div class="grid">
       <div class="card">
-        <span class="ico">☁️</span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.5 17h10a4 4 0 0 0 .4-8 5.5 5.5 0 0 0-10.6-1.3A4.4 4.4 0 0 0 6.5 17z"/></svg></span>
         <h3>구름을 만들고 옮기세요</h3>
         <p>바다 위에서 구름을 띄워 육지로 끌어오면 비가 내립니다. 바다 위에서는 비를 아껴요.</p>
       </div>
       <div class="card">
-        <span class="ico">🌱</span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21v-8"/><path d="M12 13c0-4 2.5-6 6-6 0 3.5-2.5 6-6 6z"/><path d="M12 16c0-3-2-4.5-4.5-4.5 0 2.6 1.8 4.5 4.5 4.5z"/></svg></span>
         <h3>햇볕은 봄을 데려옵니다</h3>
         <p>오래 쬔 땅은 봄기운이 쌓여, 눈이 녹고 풀이 돋습니다. 바다를 데우면 구름이 피어납니다.</p>
       </div>
       <div class="card">
-        <span class="ico">🍃</span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9h9a3 3 0 1 0-3-3"/><path d="M4 15h12a3 3 0 1 1-3 3"/><path d="M4 12h6"/></svg></span>
         <h3>바람은 비를 옆으로</h3>
         <p>바람에 실린 비는 넓고 얇게 내려 초원 띠를 만듭니다. 풍차도 바람에 반응해요.</p>
       </div>
       <div class="card">
-        <span class="ico">🐾</span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7" cy="9" r="1.6"/><circle cx="12" cy="7.5" r="1.6"/><circle cx="17" cy="9" r="1.6"/><path d="M8 15.5c1-1.8 2.4-2.7 4-2.7s3 .9 4 2.7c.8 1.4-.2 3-1.8 3-1 0-1.6-.4-2.2-.4s-1.2.4-2.2.4c-1.6 0-2.6-1.6-1.8-3z"/></svg></span>
         <h3>친구들은 각자 반응합니다</h3>
         <p>비를 좋아하는 친구, 싫어하는 친구. 햇볕에 기뻐하고 바람에 데굴데굴. 금빛 친구도 숨어 있어요.</p>
       </div>
       <div class="card">
-        <span class="ico">🌙</span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 0 4 12a8.4 8.4 0 0 0 1.9 5.3c.3.4.1 1-.4 1.2l-1.3.7 2.6.6c.4.1.7.5.6.9-.1.6.3 1.1.9 1.1h3"/><circle cx="9" cy="16.5" r="0.6" fill="currentColor"/><circle cx="10.5" cy="20" r="0.6" fill="currentColor"/></svg></span>
         <h3>계절과 밤이 흐릅니다</h3>
         <p>계절이 바뀌면 잎 색이 물들고, 밤이 오면 마을에 불이 켜집니다. 유성우도 내려요.</p>
       </div>
       <div class="card">
-        <span class="ico">🎧</span>
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16v-3a8 8 0 0 1 16 0v3"/><rect x="3.2" y="14.5" width="3.6" height="6" rx="1.8"/><rect x="17.2" y="14.5" width="3.6" height="6" rx="1.8"/></svg></span>
         <h3>소리 없이도 즐겁게</h3>
         <p>빗소리와 새소리는 모두 그때그때 합성됩니다. 소리를 꺼도 게임은 그대로예요.</p>
       </div>
